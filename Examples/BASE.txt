@@ -1,0 +1,96 @@
+restart=0; ! Новая задача или задача с перезапуска
+title = 'V3.039.000 Cyl pipe heat'; ! Номер версии кода
+
+dtc =  0.0005; ! Временной шаг исходя из условия CFL~1
+! Ключи основной процедуры
+fin_tim =  4.0; ! Конечное время счёта, c
+dt_out  =  dtc; ! Период записи в файл результатов, c
+
+! Процедура LAYOUT
+layout;
+! Стыковка с каналами
+smass_t1-ch1(1); ! Smass и CH1
+bljun1-ch1/i;
+ch1/o-cfd1/1;    ! Вход CFD
+cfd1/2-ch2/i;    ! Выход CFD
+ch2/o-bvol_t1;   ! CH2 и bvol
+end;
+
+! Вызов процедур DATA для всех элементов
+! нодализационной схемы задачи
+call cfd1;
+call smass_t1;
+call bvol_t1;
+call ch1;
+call ch2;
+call bljun1;
+
+! Установка процедур EVENT
+set vozm;
+set qchng;
+set Nusselt;
+set timeReg;
+
+! Вызов процедур OUPUT
+out results;
+
+end;
+
+! Процедуры DATA для всех элементов
+! нодализационной схемы задачи
+
+! Элемент CFD
+data cfd1
+   dtcfd = dtc; ! Шаг по времени
+   
+end;
+
+! Элемент BLJUN
+data bljun1;
+   type=0;
+   
+end;
+
+! Элемент BVOL_T
+data bvol_t1;
+   p    = 1.0e+5; ! Заданное давление на выходе
+  
+end;
+
+! Элемент SMASS_T
+data smass_t1;
+   gin   = 0.0; ! Входной расход нарастает в EVENT vozm
+   gmout = 0.0; ! Нулевой выходной расход
+end;
+
+! Входной канал
+data ch1;
+   n = 5; ! Число ячеек
+   
+end;   
+
+! Выходной канал
+data ch2;
+   n = 6; ! Число ячеек
+   
+end;
+
+! Процедуры EVENT
+event qchng; 
+   
+end;
+
+event vozm;
+   ! Линейное увеличение поступающего расхода в smass_ 
+   type=3; ! Исполнение в начале шага по времени
+   ! tau – ключ основной процедуры
+   ! Линейное увеличение расхода с 0 по 1 с
+   ccc=min(1.0,tau);
+   gin.smass_t1(1)=ccc*flowRate; ! flowRate – значение расхода
+end;
+
+! Процедуры OUTPUT
+output results;
+   write w.ch1, p.ch1, t.ch1, eh.ch1;
+   write w.ch2, p.ch2, t.ch2, eh.ch2;
+end;

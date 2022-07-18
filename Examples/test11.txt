@@ -1,0 +1,106 @@
+! Элемент CFD
+data cfd1;
+   vis = 7;
+   !vis = 88;! 87; ! Шаг по времени
+   !viss = 87.4; ! Шаг по времени
+   !ffg=dfghj;   
+end;
+
+! Элемент CFD
+data cfd16;
+   vis = dtc; ! Шаг по времени
+
+end;
+
+! Элемент BLJUN
+data            bljun1;
+   !type        =    0;     
+   
+end;
+
+
+!ensd=;
+! Элемент BLJUN
+data bljun6 bljun375;
+   !bljun=9;
+   type        =    0;     
+  
+end;
+
+! Элемент BVOL_T
+data bvol1;
+   p    = 1.0e+5;
+  !;;;;;;;
+  
+end;
+
+! Элемент SMASS_T
+data smass1;
+   gin   = 0; ! Входной расход нарастает в EVENT vozm
+   !gmout = 0.0; ! Нулевой выходной расход
+end;
+
+! Входной канал
+data ch1;
+   n = 5; ! Число ячеек
+   
+end;   
+
+! Выходной канал
+data ch2;
+   n = 6; ! Число ячеек
+   
+end;
+
+
+
+
+
+! Элемент CFD
+data cfd11;
+   vis = 827.45; ! Шаг по времени
+   
+end;
+
+! Элемент BLJUN
+data            bljun12;
+   type        =    10;     
+   
+end;
+
+! Элемент CFD
+data cfd23;
+   !dtcfd = dtc; ! Шаг по времени
+
+end;
+
+! Элемент BLJUN
+data            bljun33;
+   type        =    10;     
+  
+end;
+
+! Элемент BVOL_T
+data bvol18;
+   p    = 5.0e+5;
+   p    = 6.4e+3; ! Заданное давление на выходе
+  
+end;
+
+! Элемент SMASS_T
+data smass1099;
+   gin   =             0.0; ! Входной расход нарастает в EVENT vozm
+   !gmout = 0.0; ! Нулевой выходной расход
+end;
+
+! Входной канал
+data ch7;
+   n = 2; ! Число ячеек
+   
+end;   
+
+! Выходной канал
+data ch4;
+   n = 1; ! Число ячеек
+   
+end;
